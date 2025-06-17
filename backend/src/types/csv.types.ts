@@ -1,7 +1,5 @@
-export interface rawElectricConsuption{
-    CUPS: string,
+export interface ConsuptionDayData {
     Fecha: string,
-    Hora: string,
-    Consumo_kWh: string,
-    Metodo_obtencion: string
+    Hora: number,
+    Consumo_kWh: number
 }
