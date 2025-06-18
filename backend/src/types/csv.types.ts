@@ -1,5 +1,5 @@
 export interface ConsuptionDayData {
-    Fecha: string,
+    Fecha: Date,
     Hora: number,
     Consumo_kWh: number
 }
