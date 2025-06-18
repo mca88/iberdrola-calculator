@@ -1,8 +1,10 @@
 // import fs from 'fs';
 import path from 'path';
+import fs from 'fs'
 import { processCSV } from '@/services/csvProcessor';
 import { parsedDate } from '@/utils/dates';
 import './utils'
+import { ConsuptionDayData } from '@/types/csv.types';
 
 describe('parserConsuptionCSV', () => {
     const fixturesPath = path.join(__dirname, 'fixtures')
@@ -220,6 +222,39 @@ describe('parserConsuptionCSV', () => {
             29/02/2025;1;0,15`.cleanCSV();
 
             expect(() => processCSV(badFormat)).toThrow(Error(expectedErrorMsg))
+        })
+    })
+
+    describe('Local .csv from i-de website', () => {
+        test('May receipt', () => {
+            const content: string = fs.readFileSync(path.join(fixturesPath, 'consumo-mayo.csv'), 'utf8')
+            const result = processCSV(content);
+            expect(result).toHaveLength(696);
+
+            //Some random rows
+            expect(result[20]).toEqual({
+                Fecha: parsedDate('30/04/2025'),
+                Hora: 21,
+                Consumo_kWh: 0.363
+            })
+
+            expect(result[359]).toEqual({
+                Fecha: parsedDate('14/05/2025'),
+                Hora: 24,
+                Consumo_kWh: 0.195
+            })
+
+            expect(result[600]).toEqual({
+                Fecha: parsedDate('25/05/2025'),
+                Hora: 1,
+                Consumo_kWh: 0.052
+            })
+
+            expect(result[189]).toEqual({
+                Fecha: parsedDate('07/05/2025'),
+                Hora: 22,
+                Consumo_kWh: 1.155
+            })
         })
     })
 })
