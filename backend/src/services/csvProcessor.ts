@@ -1,9 +1,9 @@
 import Papa from 'papaparse'
-import {parse, isValid, format} from 'date-fns'
-import { ConsuptionDayData } from '@/types/csv.types'
+import { parse, isValid, format } from 'date-fns'
+import { DayConsumptionData, HourlyConsumption, SingleConsuptionData } from '@/types/consuption.types'
 import { parsedDate } from '@/utils/dates';
 
-export function processCSV(csvContent: string): ConsuptionDayData[] {
+export function processCSV(csvContent: string): SingleConsuptionData[] {
 
     const parseResult = Papa.parse(csvContent, {
         delimiter: ';',
@@ -13,7 +13,7 @@ export function processCSV(csvContent: string): ConsuptionDayData[] {
     })
 
     if (parseResult.errors && parseResult.errors.length > 0) {
-        throw new Error(`Error al parsear el CSV: ${parseResult.errors.map((e) =>{ 
+        throw new Error(`Error al parsear el CSV: ${parseResult.errors.map((e) => {
             const fila = e.row != null ? `Línea ${e.row + 1}` : '-';
             return `\n${fila}: ${e.message}`;
         }).join(', ')}`);
@@ -33,21 +33,21 @@ export function processCSV(csvContent: string): ConsuptionDayData[] {
         throw new Error(`Cabeceras requeridas faltantes: ${missingColumns.join(', ')}. Las cabeceras obligatorias son: Fecha, Hora, Consumo_kWh`);
     }
 
-    const consumptionData: ConsuptionDayData[] = data.map((row, index) => {
+    const consumptionData: SingleConsuptionData[] = data.map((row, index) => {
         if (row.Fecha === undefined || row.Fecha === null || row.Fecha === '') {
             throw new Error(`Fila ${index + 1}: Faltan datos en el campo de la fecha`);
         }
 
-        if(row.Hora === undefined || row.Hora === null || row.Hora === ''){
+        if (row.Hora === undefined || row.Hora === null || row.Hora === '') {
             throw new Error(`Fila ${index + 1}: Faltan datos en el campo de la hora`);
         }
 
-        if(row.Consumo_kWh === undefined || row.Consumo_kWh === null || row.Consumo_kWh === ''){
+        if (row.Consumo_kWh === undefined || row.Consumo_kWh === null || row.Consumo_kWh === '') {
             throw new Error(`Fila ${index + 1}: Faltan datos en el campo del consumo`);
         }
 
         // Convertir el consumo a número
-        const consumption = parseFloat(row.Consumo_kWh.replace(',','.'));
+        const consumption = parseFloat(row.Consumo_kWh.replace(',', '.'));
         if (isNaN(consumption)) {
             throw new Error(`Fila ${index + 1}: El valor de Consumo_kWh no es un número válido`);
         }
@@ -57,7 +57,7 @@ export function processCSV(csvContent: string): ConsuptionDayData[] {
         if (isNaN(hour)) {
             throw new Error(`Fila ${index + 1}: El valor de la hora no es un número válido`);
         }
-        if(hour < 1 || hour > 24){
+        if (hour < 1 || hour > 24) {
             throw new Error(`Fila ${index + 1}: El valor de la hora debe estar entre 1 y 24`);
         }
 
@@ -78,4 +78,35 @@ export function processCSV(csvContent: string): ConsuptionDayData[] {
     });
 
     return consumptionData;
+}
+
+export function groupConsuptionsIntoDays(listOfConsuptions: SingleConsuptionData[]): DayConsumptionData[] {
+
+    const groupedByDate = new Map<string, HourlyConsumption[]>();
+
+    for (const consuption of listOfConsuptions) {
+        const dateKey = consuption.Fecha.toDateString()
+        const hourlyConsuption: HourlyConsumption = {
+            Hora: consuption.Hora,
+            Consumo_kWh: consuption.Consumo_kWh
+        };
+
+        if (groupedByDate.has(dateKey)) {
+            groupedByDate.get(dateKey)?.push(hourlyConsuption)
+        }
+        else {
+            groupedByDate.set(dateKey, [hourlyConsuption])
+        }
+    }
+
+    const result: DayConsumptionData[] = [];
+
+    for (const [dateKey, consumptions] of groupedByDate) {
+        result.push({
+            Fecha: new Date(dateKey),
+            Consumptions: consumptions.sort((a, b) => a.Hora - b.Hora)
+        })
+    }
+
+    return result.sort((a, b) => a.Fecha.getTime() - b.Fecha.getTime());
 }
