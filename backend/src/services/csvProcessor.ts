@@ -1,5 +1,5 @@
 import Papa from 'papaparse'
-import { parse, isValid, format } from 'date-fns'
+import { isValid, format } from 'date-fns'
 import { DayConsumptionData, HourlyConsumption, SingleConsuptionData } from '@/types/consuption.types'
 import { parsedDate } from '@/utils/dates';
 

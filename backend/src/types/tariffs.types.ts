@@ -1,13 +1,28 @@
 type Energy = "low" | "mid" | "high"
 type Power = "low" | "high"
 
-type Tariff = {
+interface EnergyResult {
+    kwH: number;
+    price: number;
+}
+
+export interface TariffResult {
+    totalPower: number;
+    lowPower: number;
+    highPower: number;
+    totalEnergy: EnergyResult;
+    lowEnergy: EnergyResult;
+    midEnergy: EnergyResult;
+    highEnergy: EnergyResult;
+}
+
+export type Tariff = {
     type: TariffType
     power_prices: Record<Power, number>,
     energy_prices: Record<Energy, number | null>
 }
 
-enum TariffType {
+export enum TariffType {
     Noche = "Noche",
     TresPeriodos = "TresPeriodos",
     Inteligente = "Inteligente"
