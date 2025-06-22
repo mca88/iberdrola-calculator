@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs'
 import { groupConsuptionsIntoDays, processCSV } from '@/services/csvProcessor';
-import { parsedDate } from '@/utils/dates';
 import './utils'
 import { allTariffs } from '@/types/tariffs.types';
 import { calculateTariff } from '@/services/calculator';

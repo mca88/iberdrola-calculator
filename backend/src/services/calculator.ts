@@ -20,14 +20,9 @@ export function calculateTariff(days: DayConsumptionData[], tarif: Tariff, contr
         midEnergy: { kwH: 0, price: 0 },
         highEnergy: { kwH: 0, price: 0 }
     }
-    const numberOfDays = days.length;
-
     // Calculate Power
-
-    total.lowPower = Number((Math.round((contractedPower * numberOfDays * tarif.power_prices.low) * 100) / 100).toFixed(2))
-    total.highPower = Number((Math.round((contractedPower * numberOfDays * tarif.power_prices.high) * 100) / 100).toFixed(2))
-
-    // console.log(`LOWPOWER: ${total.lowPower}\nHIGHPOWER: ${total.highPower}`)
+    total.lowPower = Number((Math.round((contractedPower * days.length * tarif.power_prices.low) * 100) / 100).toFixed(2))
+    total.highPower = Number((Math.round((contractedPower * days.length * tarif.power_prices.high) * 100) / 100).toFixed(2))
     total.totalPower = Number((total.lowPower + total.highPower).toFixed(2));
 
     // Calculate Energy
@@ -37,14 +32,14 @@ export function calculateTariff(days: DayConsumptionData[], tarif: Tariff, contr
 
         days.forEach(day => {
 
-            // Get nigth tariff hours threshold
+            // Get night tariff hours threshold
             const monthN = day.Fecha.getMonth(); // 0-11
             const dayN = day.Fecha.getDate();  // 1-31
             const dateN = monthN * 100 + dayN;
 
             // March (2) day 30 = 230
-            // Octobers (9) day 28 = 928
-            if (dateN >= 230 && dateN <= 928) {
+            // Octobers (9) day 26 = 926
+            if (dateN >= 230 && dateN <= 926) {
                 expensiveHourStart = 13;
                 expensiveHourEnd = 23;
             }
@@ -65,6 +60,11 @@ export function calculateTariff(days: DayConsumptionData[], tarif: Tariff, contr
         total.totalEnergy.price = total.lowEnergy.price + total.highEnergy.price
     }
     else if (tarif.type === TariffType.TresPeriodos) {
+
+        days.forEach(day => {
+
+        })
+
 
     }
     else if (tarif.type === TariffType.Inteligente) {
