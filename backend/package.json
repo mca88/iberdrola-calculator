@@ -8,7 +8,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:verbose": "jest --verbose",
-    "test:chose": "jest --testNamePattern",
+    "test:choose": "jest --testNamePattern",
     "test csv": "jest csv",
     "test tariff": "jest tariffs"
   },

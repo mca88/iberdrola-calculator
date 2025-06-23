@@ -13,12 +13,13 @@ export function calculateTariff(days: DayConsumptionData[], tarif: Tariff, contr
 
     let total: TariffResult = {
         totalPower: 0,
-        lowPower: 0,
-        highPower: 0,
         totalEnergy: { kwH: 0, price: 0 },
-        lowEnergy: { kwH: 0, price: 0 },
+        totalPrice: 0,
+        highPower: 0,
+        lowPower: 0,
+        highEnergy: { kwH: 0, price: 0 },
         midEnergy: { kwH: 0, price: 0 },
-        highEnergy: { kwH: 0, price: 0 }
+        lowEnergy: { kwH: 0, price: 0 },
     }
     // Calculate Power
     total.lowPower = Number((Math.round((contractedPower * days.length * tarif.power_prices.low) * 100) / 100).toFixed(2))
@@ -58,6 +59,7 @@ export function calculateTariff(days: DayConsumptionData[], tarif: Tariff, contr
         });
         total.totalEnergy.kwH = total.lowEnergy.kwH + total.highEnergy.kwH
         total.totalEnergy.price = total.lowEnergy.price + total.highEnergy.price
+        total.totalPrice = total.totalEnergy.price + total.totalPower
     }
     else if (tarif.type === TariffType.TresPeriodos) {
 

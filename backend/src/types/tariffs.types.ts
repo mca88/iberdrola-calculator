@@ -8,12 +8,13 @@ interface EnergyResult {
 
 export interface TariffResult {
     totalPower: number;
-    lowPower: number;
-    highPower: number;
     totalEnergy: EnergyResult;
-    lowEnergy: EnergyResult;
-    midEnergy: EnergyResult;
+    totalPrice: number;
+    highPower: number;
+    lowPower: number;
     highEnergy: EnergyResult;
+    midEnergy: EnergyResult;
+    lowEnergy: EnergyResult;
 }
 
 export type Tariff = {
@@ -37,7 +38,7 @@ export const allTariffs: Tariff[] = [
     {
         type: TariffType.TresPeriodos,
         power_prices: { low: 0.013014, high: 0.086301 },
-        energy_prices: { low: 0.090904, mid: null, high: 0.175576 }
+        energy_prices: { low: 0.090904, mid: 0.122892, high: 0.175576 }
     },
     {
         type: TariffType.Inteligente,
