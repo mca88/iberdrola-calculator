@@ -31,7 +31,8 @@ export type Tariff = {
 export enum TariffType {
     Noche = "Noche",
     TresPeriodos = "TresPeriodos",
-    Inteligente = "Inteligente"
+    Inteligente = "Inteligente",
+    Online = "Online"
 }
 
 export const allTariffs: Tariff[] = [
@@ -49,5 +50,10 @@ export const allTariffs: Tariff[] = [
         type: TariffType.Inteligente,
         power_prices: { low: 0.046548, high: 0.108192 },
         energy_prices: { low: 0.123500, mid: null, high: 0.247000 }
-    }
+    },
+    {
+        type: TariffType.Online,
+        power_prices: { low: 0.046548, high: 0.108192 },
+        energy_prices: { low: null, mid: 0.113000, high: null }
+    },
 ]
