@@ -1,11 +1,17 @@
 import { DayConsumptionData } from "@/types/consuption.types";
-import { allTariffs, Tariff, TariffType, TariffResult } from "@/types/tariffs.types";
+import { allTariffs, Tariff, TariffType, TariffResult, FullResult } from "@/types/tariffs.types";
 
-export function calculateAllTariffs(days: DayConsumptionData[], contractedPower: number) {
+export function calculateAllTariffs(days: DayConsumptionData[], contractedPower: number): FullResult[] {
+    let result: FullResult[] = [];
 
     for (const tarif of allTariffs) {
-
+        result.push({
+            tariffType: tarif.type,
+            result: calculateTariff(days, tarif, contractedPower)
+        })
     }
+
+    return result;
 }
 
 
@@ -66,7 +72,7 @@ export function calculateTariff(days: DayConsumptionData[], tarif: Tariff, contr
         const HighRange: number[] = [11, 12, 13, 14, 19, 20, 21, 22];
 
         days.forEach(day => {
-            let isWeekend = (day.Fecha.getDate() === 0 || day.Fecha.getDate() === 6);
+            let isWeekend = (day.Fecha.getDay() === 0 || day.Fecha.getDay() === 6);
 
             // Start calculating price
             day.Consumptions.forEach(consuption => {
@@ -89,7 +95,21 @@ export function calculateTariff(days: DayConsumptionData[], tarif: Tariff, contr
         });
     }
     else if (tarif.type === TariffType.Inteligente) {
-
+        days.forEach(day => {
+            // Sort consuptions from higher to lower
+            const sortedConsuptions = day.Consumptions.sort((a, b) => b.Consumo_kWh - a.Consumo_kWh);
+            sortedConsuptions.forEach((consuption, index) => {
+                //8 higher consuptions are on low price
+                if (index <= 7) {
+                    total.lowEnergy.price += (consuption.Consumo_kWh * tarif.energy_prices.low!);
+                    total.lowEnergy.kwH += consuption.Consumo_kWh;
+                }
+                else {
+                    total.highEnergy.price += (consuption.Consumo_kWh * tarif.energy_prices.high!);
+                    total.highEnergy.kwH += consuption.Consumo_kWh;
+                }
+            })
+        });
     }
     total.totalEnergy.kwH = total.lowEnergy.kwH + total.midEnergy.kwH + total.highEnergy.kwH;
     total.totalEnergy.price = total.lowEnergy.price + total.midEnergy.price + total.highEnergy.price;

@@ -3,7 +3,7 @@ import fs from 'fs'
 import { groupConsuptionsIntoDays, processCSV } from '@/services/csvProcessor';
 import './utils'
 import { allTariffs } from '@/types/tariffs.types';
-import { calculateTariff } from '@/services/calculator';
+import { calculateAllTariffs, calculateTariff } from '@/services/calculator';
 
 const fixturesPath = path.join(__dirname, 'fixtures');
 const contractedPower = 3.45;
@@ -13,6 +13,7 @@ const kwHError = 1;
 //Tariffs
 const nocheTariff = allTariffs[0];
 const tresPeriodosTariff = allTariffs[1];
+const inteligenteTariff = allTariffs[2];
 
 describe('Noche tariff', () => {
     test('february-receipt', () => {
@@ -132,13 +133,99 @@ describe('Noche tariff', () => {
 })
 
 describe('3 Periodos Tariff', () => {
-
-    test('comparaciones', () => {
-        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumo-abril.csv'), 'utf8');
+    test('1 Day test', () => {
+        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumos-1-dia.csv'), 'utf8');
         const consuptions = processCSV(content);
         const grouped = groupConsuptionsIntoDays(consuptions);
 
-        const result3Periodos = calculateTariff(grouped, tresPeriodosTariff, contractedPower);
-        // TO - DO hand made tests
+        const result = calculateTariff(grouped, tresPeriodosTariff, contractedPower);
+
+        const expectedLowEnergyPrice = (0.076 + 0.057 + 0.056 + 0.056 + 0.055 + 0.056 + 0.167 + 0.062) * tresPeriodosTariff.energy_prices.low!;
+        const expectedMidEnergyPrice = (0.174 + 0.204 + 0.052 + 0.138 + 0.076 + 0.064 + 0.812 + 0.067) * tresPeriodosTariff.energy_prices.mid!;
+        const expectedHighEnergyPrice = (0.055 + 0.172 + 0.128 + 0.053 + 0.053 + 0.053 + 0.059 + 0.249) * tresPeriodosTariff.energy_prices.high!;
+
+        expect(result.lowEnergy.price).toBeCloseTo(expectedLowEnergyPrice, 6);
+        expect(result.midEnergy.price).toBeCloseTo(expectedMidEnergyPrice, 6);
+        expect(result.highEnergy.price).toBeCloseTo(expectedHighEnergyPrice, 6);
+    })
+    test('2 Day test', () => {
+        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumos-2-dias.csv'), 'utf8');
+        const consuptions = processCSV(content);
+        const grouped = groupConsuptionsIntoDays(consuptions);
+
+        const result = calculateTariff(grouped, tresPeriodosTariff, contractedPower);
+        let expectedLowEnergyPrice = (0.057 + 0.059 + 0.054 + 0.053 + 0.052 + 0.053 + 0.166 + 0.058) * tresPeriodosTariff.energy_prices.low!;
+        let expectedMidEnergyPrice = (0.063 + 0.052 + 0.051 + 0.115 + 0.104 + 0.105 + 0.227 + 0.276) * tresPeriodosTariff.energy_prices.mid!;
+        let expectedHighEnergyPrice = (0.092 + 0.078 + 0.051 + 0.052 + 0.340 + 0.546 + 0.363 + 0.192) * tresPeriodosTariff.energy_prices.high!;
+
+        expectedLowEnergyPrice += (0.215 + 0.217 + 0.077 + 0.052 + 0.048 + 0.048 + 0.052 + 0.053) * tresPeriodosTariff.energy_prices.low!;
+        expectedMidEnergyPrice += (0.050 + 0.047 + 0.958 + 0.523 + 0.141 + 0.102 + 0.565 + 0.467) * tresPeriodosTariff.energy_prices.mid!;
+        expectedHighEnergyPrice += (0.417 + 0.338 + 1.007 + 0.200 + 0.177 + 0.279 + 0.468 + 0.206) * tresPeriodosTariff.energy_prices.high!;
+
+        expect(result.lowEnergy.price).toBeCloseTo(expectedLowEnergyPrice, 6);
+        expect(result.midEnergy.price).toBeCloseTo(expectedMidEnergyPrice, 6);
+        expect(result.highEnergy.price).toBeCloseTo(expectedHighEnergyPrice, 6);
+    })
+    test('Weekend day', () => {
+        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumos-fin-semana.csv'), 'utf8');
+        const consuptions = processCSV(content);
+        const grouped = groupConsuptionsIntoDays(consuptions);
+
+        const result = calculateTariff(grouped, tresPeriodosTariff, contractedPower);
+
+        const expectedLowEnergyPrice = (0.048 + 0.091 + 0.447 + 0.053 + 0.053 + 0.053 + 0.052 + 0.047 +
+            0.049 + 0.052 + 0.184 + 0.332 + 0.082 + 0.526 + 0.599 + 0.276 +
+            0.824 + 0.791 + 0.070 + 0.056 + 0.057 + 0.063 + 0.059 + 0.057) * tresPeriodosTariff.energy_prices.low!;
+        const expectedMidEnergyPrice = 0;
+        const expectedHighEnergyPrice = 0;
+
+        expect(result.lowEnergy.price).toBeCloseTo(expectedLowEnergyPrice, 6);
+        expect(result.midEnergy.price).toBeCloseTo(expectedMidEnergyPrice, 6);
+        expect(result.highEnergy.price).toBeCloseTo(expectedHighEnergyPrice, 6);
+    })
+})
+
+describe('Ahorro inteligente Tariff', () => {
+    test('1 Day test', () => {
+        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumos-1-dia.csv'), 'utf8');
+        const consuptions = processCSV(content);
+        const grouped = groupConsuptionsIntoDays(consuptions);
+
+        const result = calculateTariff(grouped, inteligenteTariff, contractedPower);
+
+        const expectedLowEnergyPrice = (0.812 + 0.249 + 0.204 + 0.174 + 0.172 + 0.167 + 0.138 + 0.128) * inteligenteTariff.energy_prices.low!;
+        const expectedHighEnergyPrice = (0.076 + 0.076 + 0.067 + 0.062 + 0.064 + 0.059 + 0.057 + 0.056 + 0.056 + 0.056 + 0.055 + 0.055 + 0.053 + 0.053 + 0.053 + 0.052) * inteligenteTariff.energy_prices.high!;
+
+        expect(result.lowEnergy.price).toBeCloseTo(expectedLowEnergyPrice, 6);
+        expect(result.highEnergy.price).toBeCloseTo(expectedHighEnergyPrice, 6);
+    })
+    test('2 Day test', () => {
+        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumos-2-dias.csv'), 'utf8');
+        const consuptions = processCSV(content);
+        const grouped = groupConsuptionsIntoDays(consuptions);
+
+        const result = calculateTariff(grouped, inteligenteTariff, contractedPower);
+
+        let expectedLowEnergyPrice = (0.546 + 0.363 + 0.34 + 0.276 + 0.227 + 0.192 + 0.166 + 0.115) * inteligenteTariff.energy_prices.low!;
+        let expectedHighEnergyPrice = (0.105 + 0.104 + 0.092 + 0.078 + 0.063 + 0.059 + 0.058 + 0.057 + 0.054 + 0.053 + 0.053 + 0.052 + 0.052 + 0.052 + 0.051 + 0.051) * inteligenteTariff.energy_prices.high!;
+
+        expectedLowEnergyPrice += (1.007 + 0.958 + 0.565 + 0.523 + 0.468 + 0.467 + 0.417 + 0.338) * inteligenteTariff.energy_prices.low!;
+        expectedHighEnergyPrice += (0.279 + 0.217 + 0.215 + 0.206 + 0.2 + 0.177 + 0.141 + 0.102 + 0.077 + 0.053 + 0.052 + 0.052 + 0.05 + 0.048 + 0.048 + 0.047) * inteligenteTariff.energy_prices.high!;
+
+        expect(result.lowEnergy.price).toBeCloseTo(expectedLowEnergyPrice, 6);
+        expect(result.highEnergy.price).toBeCloseTo(expectedHighEnergyPrice, 6);
+    })
+})
+
+
+describe('Compare tariffs', () => {
+    test('All tariffs on april receipt', () => {
+        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumo-junio.csv'), 'utf8');
+        const consuptions = processCSV(content);
+        const grouped = groupConsuptionsIntoDays(consuptions);
+
+        const result = calculateAllTariffs(grouped, contractedPower);
+
+        console.log(JSON.stringify(result));
     })
 })

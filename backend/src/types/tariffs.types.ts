@@ -17,6 +17,11 @@ export interface TariffResult {
     lowEnergy: EnergyResult;
 }
 
+export interface FullResult {
+    tariffType: TariffType,
+    result: TariffResult
+}
+
 export type Tariff = {
     type: TariffType
     power_prices: Record<Power, number>,
