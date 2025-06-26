@@ -6,7 +6,7 @@ import { allTariffs } from '@/types/tariffs.types';
 import { calculateAllTariffs, calculateTariff } from '@/services/calculator';
 
 const fixturesPath = path.join(__dirname, 'fixtures');
-const contractedPower = 3.45;
+const contractedPower = 7.5;
 // Margins of error
 const priceError = 0.2;
 const kwHError = 1;
@@ -220,7 +220,7 @@ describe('Ahorro inteligente Tariff', () => {
 
 describe('Compare tariffs', () => {
     test('All tariffs on april receipt', () => {
-        const content: string = fs.readFileSync(path.join(fixturesPath, 'consumo-junio.csv'), 'utf8');
+        const content: string = fs.readFileSync(path.join(fixturesPath, 'campo.csv'), 'utf8');
         const consuptions = processCSV(content);
         const grouped = groupConsuptionsIntoDays(consuptions);
 

@@ -15,8 +15,8 @@ export default function Hello() {
 
     const handleLogout = async () => {
         try {
-            await signOut(auth); // 🔐 cerrar sesión con Firebase
-            navigate("/login");  // 🔁 redirigir al login
+            await signOut(auth); 
+            navigate("/login");  
         } catch (error) {
             console.error("Error al cerrar sesión", error);
         }
