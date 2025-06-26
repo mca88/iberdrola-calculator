@@ -2,7 +2,11 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/firebase/config";
 
-export function GoogleLoginButton() {
+type GoogleLoginButtonProps = {
+    onSuccess: () => void;
+};
+
+export function GoogleLoginButton({onSuccess}: GoogleLoginButtonProps) {
     const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
@@ -15,6 +19,7 @@ export function GoogleLoginButton() {
             console.log("Token Firebase:", idToken);
 
             // Aquí puedes enviar el idToken a tu backend para validación
+            onSuccess();
         } catch (error) {
             console.error("Error al autenticar con Google", error);
         }
@@ -23,7 +28,7 @@ export function GoogleLoginButton() {
     return (
         <button
             onClick={handleGoogleLogin}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
         >
             Iniciar sesión con Google
         </button>

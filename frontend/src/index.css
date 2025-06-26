@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/* Estilos globales */
+:root {
+    --color-card-bg: #111827;
+    --color-card-border: #374151;
+    --radius-card: 1rem;
+    --bg-gradient-start: #111827;
+    --bg-gradient-end: #132d52;
+}
+
+/* Estilos globales */
+body {
+    min-height: 100dvh;
+
+    @layer base {
+        background-image: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-end));
+        color: white;
+        font-family: system-ui, sans-serif;
+    }
+}
+
+
+/* Estilo reutilizable */
+@layer components {
+    .custom {
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-card-border);
+        padding: 2.5rem;
+        border-radius: var(--radius-card);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        width: 100%;
+        max-width: 28rem;
+        text-align: center;
+    }
+}
