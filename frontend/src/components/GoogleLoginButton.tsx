@@ -1,6 +1,6 @@
 // src/components/GoogleLoginButton.tsx
 import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "@/firebase/config";
+import { auth, provider } from "@/config"
 import { loginWithGoogleToken } from "@/services/authService";
 
 type GoogleLoginButtonProps = {

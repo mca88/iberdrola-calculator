@@ -1,5 +1,5 @@
 // src/pages/Hello.tsx
-import { auth } from "@/firebase/config";
+import { auth } from "@/config";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
