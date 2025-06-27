@@ -1,4 +1,4 @@
-import { auth } from "@/config";
+import { APPROUTES, auth } from "@/config";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ export default function Home() {
     const handleLogout = async () => {
         try {
             await signOut(auth); 
-            navigate("/login");  
+            navigate(APPROUTES.LOGIN);  
         } catch (error) {
             console.error("Error al cerrar sesión", error);
         }
