@@ -14,4 +14,13 @@ const provider = new GoogleAuthProvider();
 
 export { auth, provider };
 
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
+export const APPROUTES = {
+    ROOT: "/",
+    HOME: "/home",
+    LOGIN: "/login",
+    DASHBOARD: "/dashboard",
+    PROFILE: "/profile",
+    SETTINGS: "/settings",
+} as const;

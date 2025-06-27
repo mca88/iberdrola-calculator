@@ -1,23 +1,24 @@
 // src/routes/index.ts
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Login from "@pages/Login";
-import Hello from "@pages/Hello";
+import Home from "@/pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { APPROUTES } from "@/config";
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <Navigate to="/login" replace />,
+        path: APPROUTES.ROOT,
+        element: <Navigate to={APPROUTES.HOME} replace />,
     },
     {
-        path: "/login",
+        path: APPROUTES.LOGIN,
         element: <Login />,
     },
     {
-        path: "/hello",
+        path: APPROUTES.HOME,
         element: (
             <ProtectedRoute>
-                <Hello />
+                <Home />
             </ProtectedRoute>
         ),
     },

@@ -13,7 +13,7 @@ export function GoogleLoginButton({onSuccess, onError}: GoogleLoginButtonProps) 
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            // Puedes obtener el token JWT de Firebase
+            //token JWT de Firebase
             const idToken = await user.getIdToken();
 
             const data = await loginWithGoogleToken(idToken);

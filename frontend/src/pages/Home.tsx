@@ -1,10 +1,9 @@
-// src/pages/Hello.tsx
 import { auth } from "@/config";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Hello() {
+export default function Home() {
     const [userEmail, setUserEmail] = useState<string | null>(null);
     const navigate = useNavigate();
 

@@ -1,4 +1,5 @@
 import { GoogleLoginButton } from "@/components/GoogleLoginButton";
+import { APPROUTES } from "@/config";
 import { type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +12,7 @@ export default function Login(): JSX.Element {
                 <h1 className="text-4xl font-bold mb-4 text-white">Bienvenido</h1>
                 <p className="mb-6 text-gray-400">Inicia sesión con tu cuenta de Google</p>
                 <GoogleLoginButton
-                    onSuccess={() => navigate("/hello")}
+                    onSuccess={() => navigate(APPROUTES.HOME)}
                     onError={(message) => {
                         alert(message)
                     }}
