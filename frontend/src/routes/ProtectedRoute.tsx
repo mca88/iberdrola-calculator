@@ -3,6 +3,7 @@ import { useEffect, useState, type JSX } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/config";
 import { Navigate } from "react-router-dom";
+import Layout from "@/components/Layout";
 
 interface Props {
     children: JSX.Element;
@@ -24,5 +25,5 @@ export function ProtectedRoute({ children }: Props) {
     if (loading) return <p>Cargando...</p>;
     if (!authenticated) return <Navigate to="/login" replace />;
 
-    return children;
+    return <Layout>{children}</Layout>;
 }

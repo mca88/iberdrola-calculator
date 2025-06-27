@@ -1,13 +1,13 @@
-// src/components/GoogleLoginButton.tsx
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/config"
 import { loginWithGoogleToken } from "@/services/authService";
 
 type GoogleLoginButtonProps = {
     onSuccess: () => void;
+    onError: (message: string) => void;
 };
 
-export function GoogleLoginButton({onSuccess}: GoogleLoginButtonProps) {
+export function GoogleLoginButton({onSuccess, onError}: GoogleLoginButtonProps) {
     const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
@@ -21,6 +21,7 @@ export function GoogleLoginButton({onSuccess}: GoogleLoginButtonProps) {
             onSuccess();
         } catch (error) {
             console.error("Error al autenticar con Google", error);
+            onError("El servidor está temporalmente cerrado, por favor, inténtelo más tarde");
         }
     };
 
