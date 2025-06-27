@@ -1,6 +1,8 @@
 import Fastify from 'fastify';
 import authPlugin from '@plugins/auth'
 import { admin } from '@firebase/firebase'
+import userRoutes from './routes/users';
+import cors from '@fastify/cors';
 
 declare module 'fastify' {
     interface FastifyRequest {
@@ -12,7 +14,13 @@ const app = Fastify({
     logger: true,
 });
 
+app.register(cors, {
+    origin: true, // o especifica una URL como: 'http://localhost:3000'
+    credentials: true,
+});
+
 app.register(authPlugin)
+app.register(userRoutes, { prefix: '/users' });
 
 app.get('/', async (request, reply) => {
     return { message: 'Holaaa, Fastify con TypeScript!' };
