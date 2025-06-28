@@ -17,7 +17,6 @@ export default function Login(): JSX.Element {
                         alert(message)
                     }}
                 />
-
             </div>
         </div>
     );

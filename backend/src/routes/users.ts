@@ -5,10 +5,10 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/login', async (request, reply) => {
         if (!request.user) return reply.status(401).send({ error: 'Unauthorized' });
 
-        const userDoc = await db.collection('users').doc(request.user.uid).get();
+        const userDoc = await db.collection('users').doc(request.user.sub).get();
 
         if (!userDoc.exists) {
-            await db.collection('users').doc(request.user.uid).set({
+            await db.collection('users').doc(request.user.sub).set({
                 email: request.user.email,
                 createdAt: new Date(),
             });

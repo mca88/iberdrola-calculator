@@ -1,7 +1,7 @@
-import { APPROUTES, auth } from "@/config";
-import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "@/config";
+import { HelpCircle, Upload, Eye, Scale } from "lucide-react";
 
 export default function Home() {
     const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -12,35 +12,63 @@ export default function Home() {
         setUserEmail(user?.email ?? null);
     }, []);
 
-    const handleLogout = async () => {
-        try {
-            await signOut(auth); 
-            navigate(APPROUTES.LOGIN);  
-        } catch (error) {
-            console.error("Error al cerrar sesión", error);
-        }
-    };
-
     return (
-        <div className="flex h-screen items-center justify-center">
-            <div className="bg-gray-900 border-gray-700 p-10 rounded-2xl shadow-none max-w-md w-full text-center">
-                <h1 className="text-4xl font-bold mb-4">¡Hola!</h1>
+        <div className="px-4 py-6 flex flex-col items-center">
+            {/* Bloque superior: bienvenida */}
+            <div className="bg-gray-900 border border-gray-700 p-6 rounded-2xl shadow text-center max-w-md w-full mb-8">
+                <h1 className="text-3xl font-bold mb-2 text-white">¡Hola!</h1>
                 {userEmail ? (
-                    <>
-                        <p className="text-lg text-white mb-4">
-                            Has iniciado sesión como: <strong>{userEmail}</strong>
-                        </p>
-                        <button
-                            onClick={handleLogout}
-                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer"
-                        >
-                            Cerrar sesión
-                        </button>
-                    </>
+                    <p className="text-white text-base">
+                        Has iniciado sesión como: <strong>{userEmail}</strong>
+                    </p>
                 ) : (
-                    <p className="text-lg text-gray-700">No se ha detectado usuario autenticado.</p>
+                    <p className="text-gray-400 text-base">
+                        No se ha detectado usuario autenticado.
+                    </p>
                 )}
             </div>
+
+            {/* Cuadros centrales */}
+            <div className="grid grid-cols-2 gap-6 w-full max-w-3xl items-center justify-center">
+                <ButtonBox
+                    icon={<HelpCircle size={32} />}
+                    label="Cómo usar la calculadora"
+                    onClick={() => console.log("Ir a ayuda")}
+                />
+                <ButtonBox
+                    icon={<Upload size={32} />}
+                    label="Subir CSV"
+                    onClick={() => console.log("Ir a subir")}
+                />
+                <ButtonBox
+                    icon={<Eye size={32} />}
+                    label="Ver consumos"
+                    onClick={() => console.log("Ir a ver consumos")}
+                />
+                <ButtonBox
+                    icon={<Scale size={32} />}
+                    label="Comparar consumos"
+                    onClick={() => console.log("Ir a comparar")}
+                />
+            </div>
         </div>
+    );
+}
+
+type ButtonBoxProps = {
+    icon: React.ReactNode;
+    label: string;
+    onClick: () => void;
+};
+
+function ButtonBox({ icon, label, onClick }: ButtonBoxProps) {
+    return (
+        <button
+            onClick={onClick}
+            className="flex flex-col items-center justify-center p-6 bg-gray-800 text-white rounded-2xl shadow hover:bg-gray-700 transition cursor-pointer"
+        >
+            {icon}
+            <span className="mt-3 text-lg font-semibold text-center">{label}</span>
+        </button>
     );
 }
