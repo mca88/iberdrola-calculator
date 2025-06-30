@@ -1,14 +1,17 @@
-import { APPROUTES, auth } from "@/config";
+import { APPROUTES, auth, routeTitles } from "@/config";
 import { signOut } from "firebase/auth";
 import { Home, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const TopBar = () => {
 
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const location = useLocation();
+    const title = routeTitles[location.pathname as keyof typeof routeTitles] || "";
+
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -30,6 +33,10 @@ const TopBar = () => {
             {/* Botón Home */}
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate(APPROUTES.HOME)}>
                 <Home className="w-6 h-6" />
+            </div>
+
+            <div className="absolute left-1/2 transform -translate-x-1/2 font-semibold text-white text-3xl">
+                {title}
             </div>
 
             {/* Perfil + menú */}

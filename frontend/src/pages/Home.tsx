@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "@/config";
+import { APPROUTES, auth } from "@/config";
 import { HelpCircle, Upload, Eye, Scale } from "lucide-react";
 
 export default function Home() {
@@ -33,7 +33,7 @@ export default function Home() {
                 <ButtonBox
                     icon={<HelpCircle size={32} />}
                     label="Cómo usar la calculadora"
-                    onClick={() => console.log("Ir a ayuda")}
+                    onClick={() => navigate(APPROUTES.HELP)}
                 />
                 <ButtonBox
                     icon={<Upload size={32} />}

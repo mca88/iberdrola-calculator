@@ -20,7 +20,15 @@ export const APPROUTES = {
     ROOT: "/",
     HOME: "/home",
     LOGIN: "/login",
-    DASHBOARD: "/dashboard",
-    PROFILE: "/profile",
-    SETTINGS: "/settings",
+    HELP: "/help",
+    WATCH: "/consumos",
+    COMPARE: "/compare"
 } as const;
+
+export const routeTitles: Partial<Record<(typeof APPROUTES)[keyof typeof APPROUTES], string>> = {
+    [APPROUTES.HOME]: "Inicio",
+    [APPROUTES.HELP]: "Cómo usar la calculadora",
+    [APPROUTES.WATCH]: "Ver consumos",
+    [APPROUTES.COMPARE]: "Comparar consumos"
+};
+

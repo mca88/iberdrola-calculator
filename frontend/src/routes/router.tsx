@@ -4,6 +4,7 @@ import Login from "@pages/Login";
 import Home from "@/pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { APPROUTES } from "@/config";
+import HelpPage from "@/pages/Help";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         ),
     },
+    {
+        path: APPROUTES.HELP,
+        element: (
+            <ProtectedRoute>
+                <HelpPage />
+            </ProtectedRoute>
+        ),
+    }
 ]);
 
 export default router;
