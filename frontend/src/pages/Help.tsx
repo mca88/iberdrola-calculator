@@ -62,8 +62,52 @@ const Button: React.FC<{
     );
 };
 
-const Slider1: React.FC = () =>
-    <div className="text-2xl font-semibold">Contenido del Paso 1</div>;
+const Slider1: React.FC = () => (
+    <div className="space-y-6 text-gray-800 text-base leading-relaxed text-white">
+        <h2 className="text-2xl font-semibold ">⚠️ Importante antes de empezar</h2>
+
+        <p>
+            Para usar esta calculadora, necesitas registrarte en la web oficial de <strong>i-DE Grupo Iberdrola</strong>,
+            la distribuidora eléctrica. Esta herramienta no tiene relación con dicha web.
+        </p>
+
+        <p className="font-medium">El registro requiere:</p>
+        <ul className="list-disc list-inside ml-4">
+            <li>CUPS de tu vivienda: {" "}
+                <a href="https://www.iberdrola.es/blog/luz/cups-luz"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+                >
+                    Cómo obtener el CUPS
+                </a> 
+            </li>
+            <li>Teléfono móvil</li>
+            <li>Documento de identidad (DNI/NIE)</li>
+        </ul>
+
+        <p>
+            🔗 Puedes registrarte aquí:{" "}
+            <a
+                href="https://www.i-de.es/consumidores/web/guest/register?start=true"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+            >
+                Registro en i-DE (perfil avanzado)
+            </a>
+        </p>
+
+        <p className="text-red-600 font-semibold">
+            Es obligatorio registrarse con el perfil <u>avanzado</u> para poder descargar los consumos en formato <code>.csv</code>.
+        </p>
+
+        <p className="bg-yellow-100 p-4 rounded text-sm text-gray-700 border border-yellow-300">
+            📢 <strong>Aviso legal:</strong> los datos que introduzcas en la web de i-DE (como tu CUPS o DNI) son gestionados exclusivamente por ellos.
+            Esta aplicación no tiene acceso a esos datos ni está asociada con i-DE o Iberdrola. Solo se utiliza el archivo `.csv` que tú mismo descargues.
+        </p>
+    </div>
+);
 
 const Slider2: React.FC = () =>
     <div className="text-2xl font-semibold">Contenido del Paso 2</div>;
