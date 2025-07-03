@@ -27,7 +27,6 @@ export default function Home() {
                     </p>
                 )}
             </div>
-
             {/* Cuadros centrales */}
             <div className="grid grid-cols-2 gap-6 w-full max-w-3xl items-center justify-center">
                 <ButtonBox
@@ -38,7 +37,7 @@ export default function Home() {
                 <ButtonBox
                     icon={<Upload size={32} />}
                     label="Subir CSV"
-                    onClick={() => console.log("Ir a subir")}
+                    onClick={() => navigate(APPROUTES.UPLOAD)}
                 />
                 <ButtonBox
                     icon={<Eye size={32} />}

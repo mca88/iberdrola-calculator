@@ -5,6 +5,8 @@ import Home from "@/pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { APPROUTES } from "@/config";
 import HelpPage from "@/pages/Help";
+import { Upload } from "lucide-react";
+import CSVUpload from "@/pages/Upload";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
         element: (
             <ProtectedRoute>
                 <HelpPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: APPROUTES.UPLOAD,
+        element: (
+            <ProtectedRoute>
+                <CSVUpload />
             </ProtectedRoute>
         ),
     }

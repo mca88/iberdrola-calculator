@@ -29,11 +29,11 @@ export default function HelpPage() {
             </div>
 
             {/* Controles del slider */}
-            <div className="flex items-center space-x-4">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center space-x-4">
                 <Button onClick={handlePrev} disabled={currentSlide === 0}>
                     <ChevronLeft />
                 </Button>
-                <span>
+                <span className="text-white">
                     {currentSlide + 1} / {totalSlides}
                 </span>
                 <Button onClick={handleNext} disabled={currentSlide === totalSlides - 1}>
@@ -63,7 +63,7 @@ const Button: React.FC<{
 };
 
 const Slider1: React.FC = () => (
-    <div className="space-y-6 text-gray-800 text-base leading-relaxed text-white">
+    <div className="space-y-6 text-base leading-relaxed text-white">
         <h2 className="text-2xl font-semibold ">⚠️ Importante antes de empezar</h2>
 
         <p>
@@ -75,12 +75,12 @@ const Slider1: React.FC = () => (
         <ul className="list-disc list-inside ml-4">
             <li>CUPS de tu vivienda: {" "}
                 <a href="https://www.iberdrola.es/blog/luz/cups-luz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
                 >
                     Cómo obtener el CUPS
-                </a> 
+                </a>
             </li>
             <li>Teléfono móvil</li>
             <li>Documento de identidad (DNI/NIE)</li>
@@ -109,8 +109,70 @@ const Slider1: React.FC = () => (
     </div>
 );
 
-const Slider2: React.FC = () =>
-    <div className="text-2xl font-semibold">Contenido del Paso 2</div>;
+const Slider2: React.FC = () => {
+    return (
+        <div className="space-y-6 text-base leading-relaxed text-white">
+            <p>
+                Una vez tengas un perfil avanzado, inicia sesión en el portal i-DE desde el siguiente enlace:{' '}
+                <a
+                    href="https://www.i-de.es/consumidores/web/guest/login"
+                    className="text-blue-600 underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    https://www.i-de.es/consumidores/web/guest/login
+                </a>
+            </p>
+            <p>
+                En este portal podrás consultar información sobre tu contador, tus consumos y tus facturas. Sin embargo, lo que nos interesa es descargar el archivo CSV con tus datos de consumo.
+            </p>
+            <p>
+                Para hacerlo, accede a la sección <strong>"Consumos por factura"</strong>, ubicada en el menú lateral izquierdo.
+            </p>
+            <div className="flex justify-center">
+                <img
+                    src="/images/ConsumosPorFactura.png"
+                    alt="Captura de la sección Consumos por factura"
+                    className="rounded-md border shadow-md"
+                />
+            </div>
+        </div>
+    );
+};
 
-const Slider3: React.FC = () =>
-    <div className="text-2xl font-semibold">Contenido del Paso 3</div>;
+const Slider3: React.FC = () => {
+    return (
+        <div className="space-y-6 text-base leading-relaxed text-white">
+            <p>
+                Desde la ventana de <strong>“Consumos por factura”</strong>, podrás descargar los consumos correspondientes a las facturas emitidas por Iberdrola.
+                También es posible seleccionar un periodo personalizado de días.
+            </p>
+
+            <p>
+                Para elegir el periodo, haz clic en el siguiente botón:
+            </p>
+
+            <div className="flex justify-center">
+                <img
+                    src="/images/CambiarPeriodo.png"
+                    alt="Selector de fecha para el periodo de consumo"
+                    className="rounded-md border shadow-md"
+                />
+            </div>
+
+            <p>
+                Una vez seleccionado el periodo deseado, podrás descargar un archivo CSV con el detalle del consumo diario y por horas.
+                Para ello, haz clic en el siguiente icono y selecciona la opción <strong>"Descargar CSV"</strong>:
+            </p>
+
+            <div className="flex justify-center">
+                <img
+                    src="/images/DescargarCSV.png"
+                    alt="Botón para descargar CSV"
+                    className="rounded-md border shadow-md"
+                />
+            </div>
+        </div>
+    );
+};
+
