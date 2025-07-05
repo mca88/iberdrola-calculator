@@ -1,4 +1,4 @@
-import fastify, { FastifyPluginAsync } from 'fastify';
+import { FastifyPluginAsync } from 'fastify';
 import { db } from '../firebase/firebase';
 
 const userRoutes: FastifyPluginAsync = async (fastify) => {
