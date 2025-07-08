@@ -11,6 +11,7 @@ export default function CSVUpload() {
     const [file, setFile] = useState<File | null>(null);
     const [customName, setCustomName] = useState("");
     const [uploading, setUploading] = useState(false);
+    const [power, setPower] = useState("")
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +31,7 @@ export default function CSVUpload() {
         if (!customName) return alert("Dale un nombre al archivo");
 
         try {
-            const response = await uploadCSV(file, customName);
+            const response = await uploadCSV(file, customName, power);
             setFile(null);
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
@@ -78,6 +79,27 @@ export default function CSVUpload() {
                         placeholder="Ej: consumo-junio"
                         value={customName}
                         onChange={(e) => setCustomName(e.target.value)}
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <div className="flex items-center gap-1">
+                        <Label htmlFor="contractedPower">Potencia contratada</Label>
+
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <HelpCircle className="w-4 h-4 text-muted-foreground cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                                Puedes comprobar tu potencia contratada en la factura digital de Iberdrola.
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                    <Input
+                        id="contractedPower"
+                        placeholder="Ej: 3.45"
+                        value={power}
+                        onChange={(e) => setPower(e.target.value)}
                     />
                 </div>
 
