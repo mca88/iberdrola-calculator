@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { HelpCircle, UploadCloud } from "lucide-react";
+import { HelpCircle, LoaderCircle, UploadCloud } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { uploadCSV } from "@/services/csvService";
 
@@ -29,6 +29,8 @@ export default function CSVUpload() {
     const handleUpload = async () => {
         if (!file) return alert("Selecciona un archivo .csv");
         if (!customName) return alert("Dale un nombre al archivo");
+        setUploading(true);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const response = await uploadCSV(file, customName, power);
@@ -105,11 +107,20 @@ export default function CSVUpload() {
 
                 <Button
                     onClick={handleUpload}
-                    disabled={!file || !customName || uploading}
-                    className="w-full flex items-center gap-2 cursor-pointer"
+                    disabled={!file || !customName || uploading || !power}
+                    className="w-full flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
                 >
-                    <UploadCloud className="w-4 h-4" />
-                    {uploading ? "Subiendo..." : "Subir archivo"}
+                    {uploading ? (
+                        <>
+                            <LoaderCircle className="w-4 h-4 animate-spin" />
+                            Subiendo...
+                        </>
+                    ) : (
+                        <>
+                            <UploadCloud className="w-4 h-4" />
+                            Subir archivo
+                        </>
+                    )}
                 </Button>
             </CardContent>
         </Card>
