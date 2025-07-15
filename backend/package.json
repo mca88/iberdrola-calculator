@@ -10,7 +10,8 @@
     "test:verbose": "jest --verbose",
     "test:choose": "jest --testNamePattern",
     "test csv": "jest csv",
-    "test tariff": "jest tariffs"
+    "test tariff": "jest tariffs",
+    "start": "node src/index.ts"
   },
   "keywords": [],
   "author": "",
