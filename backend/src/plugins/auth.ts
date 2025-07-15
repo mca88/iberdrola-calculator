@@ -1,6 +1,7 @@
 import fp from 'fastify-plugin';
 import { FastifyInstance } from 'fastify';
-import { verifyToken } from '@firebase/auth';
+import { verifyToken } from '../firebase';
+
 
 export default fp(async (fastify: FastifyInstance, _opts) => {
     fastify.decorateRequest('user', null);

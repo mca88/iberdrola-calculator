@@ -1,9 +1,10 @@
 import Fastify from 'fastify';
-import authPlugin from '@plugins/auth'
-import { admin } from '@firebase/firebase'
+import authPlugin from './plugins/auth';
 import userRoutes from './routes/users';
 import cors from '@fastify/cors';
 import csvRoutes from './routes/csv';
+import { admin } from 'firebase';
+
 
 declare module 'fastify' {
     interface FastifyRequest {

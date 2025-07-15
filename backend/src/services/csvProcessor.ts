@@ -1,7 +1,7 @@
 import Papa from 'papaparse'
 import { isValid, format } from 'date-fns'
-import { DayConsumptionData, HourlyConsumption, SingleConsuptionData } from '@/types/consuption.types'
-import { parsedDate } from '@/utils/dates';
+import { DayConsumptionData, HourlyConsumption, SingleConsuptionData } from '../types/consuption'
+import { parsedDate } from '../utils/dates';
 
 export function processCSV(csvContent: string): SingleConsuptionData[] {
 

@@ -11,7 +11,8 @@
     "test:choose": "jest --testNamePattern",
     "test csv": "jest csv",
     "test tariff": "jest tariffs",
-    "start": "node src/index.ts"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",

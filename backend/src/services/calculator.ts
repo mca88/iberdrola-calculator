@@ -1,5 +1,7 @@
-import { DayConsumptionData } from "@/types/consuption.types";
-import { allTariffs, Tariff, TariffType, TariffResult, FullResult } from "@/types/tariffs.types";
+import type { DayConsumptionData } from '../types/consuption'
+import { FullResult, allTariffs, Tariff, TariffResult, TariffType } from "../types/tariffs";
+
+
 
 export function calculateAllTariffs(days: DayConsumptionData[], contractedPower: number): FullResult[] {
     let result: FullResult[] = [];

@@ -1,7 +1,8 @@
 import fastify, { FastifyPluginAsync } from "fastify";
-import { groupConsuptionsIntoDays, processCSV } from "@/services/csvProcessor";
-import { calculateAllTariffs } from "@/services/calculator";
-import { db } from "@/firebase/firebase";
+import { db } from "../firebase";
+import { calculateAllTariffs } from "../services/calculator";
+import { groupConsuptionsIntoDays, processCSV } from "../services/csvProcessor";
+
 
 const csvRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.post('/upload', async (request, reply) => {

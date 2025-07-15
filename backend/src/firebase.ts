@@ -13,5 +13,9 @@ if (!getApps().length) {
     });
 }
 
+export async function verifyToken(token: string) {
+    return admin.auth().verifyIdToken(token);
+}
+
 const db = admin.firestore();
 export { admin, db };

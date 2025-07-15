@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs'
-import { groupConsuptionsIntoDays, processCSV } from '@/services/csvProcessor';
-import { parsedDate } from '@/utils/dates';
 import './utils'
+import { processCSV, groupConsuptionsIntoDays } from 'services/csvProcessor';
+import { parsedDate } from 'utils/dates';
 
 const fixturesPath = path.join(__dirname, 'fixtures')
 

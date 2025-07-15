@@ -1,9 +1,8 @@
 import path from 'path';
 import fs from 'fs'
-import { groupConsuptionsIntoDays, processCSV } from '@/services/csvProcessor';
-import './utils'
-import { allTariffs } from '@/types/tariffs.types';
-import { calculateAllTariffs, calculateTariff } from '@/services/calculator';
+import { allTariffs } from 'types/tariffs';
+import { calculateTariff, calculateAllTariffs } from 'services/calculator';
+import { processCSV, groupConsuptionsIntoDays } from 'services/csvProcessor';
 
 const fixturesPath = path.join(__dirname, 'fixtures');
 const contractedPower = 7.5;
