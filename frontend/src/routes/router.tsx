@@ -6,7 +6,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { APPROUTES } from "@/config";
 import HelpPage from "@/pages/Help";
 import CSVUpload from "@/pages/Upload";
-import WatchConsuptions from "@/pages/WatchCOnsuptions";
+import WatchConsuptions from "@/pages/WatchConsuptions";
 
 const router = createBrowserRouter([
     {
