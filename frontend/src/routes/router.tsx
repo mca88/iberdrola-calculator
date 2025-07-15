@@ -5,8 +5,8 @@ import Home from "@/pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { APPROUTES } from "@/config";
 import HelpPage from "@/pages/Help";
-import { Upload } from "lucide-react";
 import CSVUpload from "@/pages/Upload";
+import WatchConsuptions from "@/pages/WatchCOnsuptions";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +40,14 @@ const router = createBrowserRouter([
                 <CSVUpload />
             </ProtectedRoute>
         ),
+    },
+    {
+        path: APPROUTES.WATCH,
+        element: (
+            <ProtectedRoute>
+                <WatchConsuptions />
+            </ProtectedRoute>
+        )
     }
 ]);
 

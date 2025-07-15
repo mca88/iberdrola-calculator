@@ -7,6 +7,8 @@ import "./index.css"
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <div className="dark text-foreground min-h-screen">
+      <RouterProvider router={router} />
+    </div>
   </StrictMode>,
 )

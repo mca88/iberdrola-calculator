@@ -31,7 +31,7 @@ const csvRoutes: FastifyPluginAsync = async (fastify) => {
                 name,
                 power,
                 createdAt: new Date().toISOString(),
-                result: allTariffs,
+                results: allTariffs,
             });
 
             return reply.status(200).send({ message: 'Archivo recibido correctamente' });

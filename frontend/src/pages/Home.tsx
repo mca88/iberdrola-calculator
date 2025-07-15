@@ -42,7 +42,7 @@ export default function Home() {
                 <ButtonBox
                     icon={<Eye size={32} />}
                     label="Ver consumos"
-                    onClick={() => console.log("Ir a ver consumos")}
+                    onClick={() => navigate(APPROUTES.WATCH)}
                 />
                 <ButtonBox
                     icon={<Scale size={32} />}

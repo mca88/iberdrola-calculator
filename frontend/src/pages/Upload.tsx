@@ -30,7 +30,6 @@ export default function CSVUpload() {
         if (!file) return alert("Selecciona un archivo .csv");
         if (!customName) return alert("Dale un nombre al archivo");
         setUploading(true);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const response = await uploadCSV(file, customName, power);
