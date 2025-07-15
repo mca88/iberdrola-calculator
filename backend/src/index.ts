@@ -4,6 +4,8 @@ import userRoutes from './routes/users';
 import cors from '@fastify/cors';
 import csvRoutes from './routes/csv';
 import { admin } from 'firebase';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 declare module 'fastify' {
@@ -28,8 +30,7 @@ app.register(csvRoutes, { prefix: '/csv' });
 
 const start = async () => {
     try {
-        await app.listen({ port: 3000 });
-        console.log('Servidor escuchando en http://localhost:3000');
+        await app.listen({ port: parseInt(process.env.PORT!), host: '0.0.0.0' });
     } catch (err) {
         app.log.error(err);
         process.exit(1);
