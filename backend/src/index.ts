@@ -20,7 +20,7 @@ const app = Fastify({
 });
 
 app.register(cors, {
-    origin: ['http://localhost:5173', 'https://iberdrola-calculator-ebwc.vercel.app'],
+    origin: ['http://localhost:5173', 'iberdrola-calculator.vercel.app'],
     credentials: true,
 });
 
