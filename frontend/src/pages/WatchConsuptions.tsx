@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { auth } from "@/config";
 import type { FirestoreConsumption } from "@/types/consuptions.types";
 import { SimpleTable, } from "@/components/ui/ConsuptionsTable";
@@ -13,29 +13,41 @@ export default function WatchConsuptions() {
     const [loading, setLoading] = useState(true)
     const [selected, setSelected] = useState<FirestoreConsumption | null>(null)
 
+    const fetchConsumptions = async () => {
+        const user = auth.currentUser
+        if (!user) return
+
+        const db = getFirestore()
+        const consumptionsRef = collection(db, "users", user.uid, "consumptions")
+        const snapshot = await getDocs(consumptionsRef)
+
+        const data: FirestoreConsumption[] = snapshot.docs.map((doc) => {
+            const raw = doc.data() as FirestoreConsumption
+            return {
+                name: raw.name,
+                power: raw.power,
+                createdAt: new Date(raw.createdAt).toLocaleString(),
+                results: raw.results,
+                id: doc.id
+            }
+        })
+
+        setRows(data)
+        setLoading(false)
+    }
+
+    const handleDelete = async (consumption: FirestoreConsumption) => {
+        const user = auth.currentUser
+        if (!user) return
+
+        const db = getFirestore()
+        const consumptionRef = doc(db, "users", user.uid, "consumptions", consumption.id)
+
+        await deleteDoc(consumptionRef)
+        fetchConsumptions() // 👈 Recargamos los datos
+    }
+
     useEffect(() => {
-        const fetchConsumptions = async () => {
-            const user = auth.currentUser
-            if (!user) return
-
-            const db = getFirestore()
-            const consumptionsRef = collection(db, "users", user.uid, "consumptions")
-            const snapshot = await getDocs(consumptionsRef)
-
-            const data: FirestoreConsumption[] = snapshot.docs.map((doc) => {
-                const raw = doc.data() as FirestoreConsumption
-                return {
-                    name: raw.name,
-                    power: raw.power,
-                    createdAt: new Date(raw.createdAt).toLocaleString(),
-                    results: raw.results
-                }
-            })
-
-            setRows(data)
-            setLoading(false)
-        }
-
         fetchConsumptions()
     }, [])
 
@@ -71,7 +83,7 @@ export default function WatchConsuptions() {
                             variant="ghost"
                             size="icon"
                             className="text-red-500 hover:text-red-700 cursor-pointer"
-                            onClick={() => console.log("Eliminar", data)}
+                            onClick={() => handleDelete(data)}
                         >
                             <Trash2 className="h-4 w-4" />
                         </Button>

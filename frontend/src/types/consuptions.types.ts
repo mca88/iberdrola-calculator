@@ -5,6 +5,7 @@ export interface FirestoreConsumption {
     name: string;
     power: number;
     results: Result[];
+    id: string;
 }
 
 interface Result {
