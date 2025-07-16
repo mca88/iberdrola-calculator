@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function HelpPage() {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const slidesContent = [<Slider1 />, <Slider2 />, <Slider3 />];
+    const slidesContent = [<Slider1 />, <Slider2 />, <Slider3 />, <Slider4 />];
     const slides = Array.from({ length: slidesContent.length }, (_, i) => `Paso ${i + 1}`);
     const totalSlides = slides.length;
 
@@ -175,4 +175,46 @@ const Slider3: React.FC = () => {
         </div>
     );
 };
+
+const Slider4: React.FC = () => {
+    return (
+        <div className="space-y-6 text-base leading-relaxed text-white">
+            <p>
+                Una vez descargado el archivo <code>.csv</code>, accede a la pestaña{' '}
+                <a
+                    href="/upload"
+                    className="text-blue-600 underline"
+                >
+                    "Subir CSV"
+                </a>
+                {' '}desde el menú principal o haciendo click en el enlace.
+            </p>
+
+            <p>
+                Desde ahí, deberás seleccionar el archivo CSV, asignarle un nombre e introducir la potencia contratada correspondiente
+                al periodo de consumo que contiene el archivo.
+            </p>
+
+            <p>
+                Una vez rellenado todo, haz clic en <strong>"Subir archivo"</strong>. Si los datos son correctos, se procesará el archivo y se analizará tu consumo automáticamente.
+            </p>
+
+            <p>
+                Para visualizar el análisis de los consumos una vez subidos, accede a{' '}
+                <a
+                    href="/consuptions"
+                    className="text-blue-600 underline"
+                >
+                    "Ver consumos"
+                </a>{' '}
+                desde el menú principal o haciendo clic en el enlace.
+            </p>
+
+            <p>
+                Desde "Ver consumos", podrás comparar precios de distintos planes de luz adaptados a tus consumos.
+            </p>
+        </div>
+    );
+};
+
 
